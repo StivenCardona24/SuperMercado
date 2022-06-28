@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="CSS/Styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Super mercado</title>
+</head>
+<body>
+
+    
+    <div id="app">
+
+        <header class="mb-3">
+            <h1>SuperMercado</h1>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#" @click="loadForm">Productos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" @click="loadSale">Ventas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" @click="loadProduct">Catalogo</a>
+                </li>
+               
+              </ul>
+        </header>
+
+
+        <section id="products"  v-if="option == 1" >
+            <div class="container overflow-hidden">
+                <div class="row gx-5">
+                  <div class="col">
+                   <div class="p-3 border bg-light">
+                    <div class="mb-3">
+                        <h3>Producto</h3>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre del producto" v-model="product.name">
+                    </div>
+                    <div class="mb-3">
+                        <label for=""  class="form-label">Categoria:</label>
+                        <select class="form-select" aria-label="Default select example" v-model="product.category" >   
+                            <option v-for="item in categories" value="item" v-text="item"></option>
+
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for=""  class="form-label">Precio:</label>
+                        <div class="input-group ">
+                            
+                            <span class="input-group-text">$</span>
+                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" v-model="product.price">
+                            <span class="input-group-text">.00</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Cantidad:</label>
+                        <input type="number" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder" v-model="product.amount">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="product.description"></textarea>
+                    </div>
+                    
+                    <div class="mb-3 ">
+                      <button type="button" class="btn btn-primary" @click = "saveProduct">Guardar</button>
+                    </div>
+
+                   </div>
+                  </div>
+
+
+                  <div class="col">
+                    <div class="p-3 border bg-light">
+                        <h2>Productos</h2>
+                        <table class="table table-dark table-hover table-responsive table-striped">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Categoria</th> 
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                  
+                                </tr>
+                            </thead>
+                            <tbody class="text-center"  v-if="newProducts.length" >
+                                <tr  class=" align-middle" v-for="(item, index) in newProducts">
+                                    <td v-text="item.id" ></td>
+                                    <td v-text="item.name"></td>
+                                    <td v-text="item.category"></td>
+                                    <td v-text="item.amount"></td>
+                                    <td v-text="item.price"></td>
+                                </tr>
+                            </tbody>
+                            <tbody v-else>
+                                <td colspan="5" class="text-center">No hay productos</td>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </section>
+
+        <section id="sale" v-if = "option == 2">
+            <div class="container">
+                <h1>Ventas</h1>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label for="inputState" class="form-label">Producto</label>
+                        <select id="inputState" class="form-select" v-model = 'prod'>
+                          <option v-for="item in newProducts" v-text="item.name" :value="item">Choose...</option>
+                        
+                        </select>
+                      </div>
+                    <div class="col-md-4">
+                      <label for="inputPassword4" class="form-label">Cantidad</label>
+                      <input type="number" class="form-control" id="inputPassword4" min=1 :max="prod.amount" v-model ="cart.amount">
+                      <span v-if="cart.amount > prod.amount">Cantidad maxima del producto superada</span>
+                    </div>
+                    <div class="col-md-4 mt-5">
+                        <button type="button" class="btn btn-primary" @click="addCart">Agregar</button>
+                    </div>
+                   
+                  </div>
+
+                  <div class="table-responsive mb-3">
+                  <table class="table table-dark table-hover table-responsive table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Categoria</th> 
+                            <th>Precio</th> 
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody class="text-center"  v-if="sale.length">
+                        <tr  class=" align-middle"  v-for="(item, index) in sale.products">
+                            <td v-text = "item.id"></td>
+                            <td v-text = "item.name"></td>
+                            <td v-text = "item.category"></td>
+                            <td v-text = "item.price"></td>
+                            <td v-text = "item.Cantidad"></td>
+                            <td v-text = "item.total"></td>
+                        </tr>
+
+                        <tr  class=" align-middle">
+                            <td colspan="3" >Total</td>
+                            <td colspan="3">$ <span v-text="sale.total"></span></td>
+                            
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
+                        <td colspan="6" class="text-center">No hay productos en el carrito</td>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mb-3 text-right">
+                <button type="button" class="btn btn-primary text-right" >Registrar</button>
+            </div>
+
+
+
+                
+            </div>
+        </section>
+        
+    </div>
+    
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.0-alpha.4/vue.js"></script>
+<script src="Js/main.js"></script>
+</html>
