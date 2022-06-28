@@ -69,17 +69,36 @@ var app = new Vue({
 
 
     loadForm(){
-      this.option = 1
+      
+      let x = document.getElementById("option1");
+      let y = document.getElementById("option2");
+      let z = document.getElementById("option3");
+      x.classList.add('active');
+      y.classList.remove('active');
+      z.classList.remove('active');
+      this.option = 1;
 
     },
 
     loadSale(){
-      this.option = 2
+      let x = document.getElementById("option1");
+      let y = document.getElementById("option2");
+      let z = document.getElementById("option3");
+      y.classList.add('active');
+      x.classList.remove('active');
+      z.classList.remove('active');
+      this.option = 2;
 
     },
 
     loadProduct(){
-      this.option = 3
+      let x = document.getElementById("option1");
+      let y = document.getElementById("option2");
+      let z = document.getElementById("option3");
+      z.classList.add('active');
+      y.classList.remove('active');
+      x.classList.remove('active');
+      this.option = 3;
     },
 
     saveProduct(){
@@ -107,7 +126,7 @@ var app = new Vue({
       });
 
       Swal.fire(
-        'Se Guardo correctamente la mascota',
+        'Se Guardo correctamente el producto',
         'Presiona el botón',
         'success'
       );
@@ -131,6 +150,17 @@ var app = new Vue({
           icon: 'error',
           title: 'Oops...',
           text: 'Registra un producto',
+         
+        });
+        return;
+
+      }
+
+      if(this.cart.amount > this.prod.amount){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Has superado el maximo de productos disponibles en stock',
          
         });
         return;
@@ -177,7 +207,7 @@ var app = new Vue({
 
     addSale(){
 
-      if(this.sale.products.length){
+      if(this.sale.products.length<= 0){
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -192,9 +222,27 @@ var app = new Vue({
 
       this.sale.id = this.sales.length +1;
 
-      this.sales.push(this.sale);
+      let x = this.sale;
+
+      this.sales.push({
+        id: this.sale.id,
+        products: this.sale.products,
+        total: this.sale.total
+      });
 
       this.updateLocalStorage();
+
+      Swal.fire(
+        'Se registro correctamente la compra',
+        'Presiona el botón',
+        'success'
+      );
+
+      this.sale.id = '';
+      this.sale.products = [];
+      this.sale.total = 0;
+      
+
 
     },
 
