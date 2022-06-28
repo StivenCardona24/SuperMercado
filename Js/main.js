@@ -30,7 +30,7 @@ var app = new Vue({
 
     newProducts:[],
 
-    categories:['Carnes', 'Verduras', 'Bebidad', 'Frutas', 'Lacteos'],
+    categories:['Carnes', 'Verduras', 'Bebidas', 'Frutas', 'Lacteos'],
     
 
     sales: [],
@@ -144,6 +144,78 @@ var app = new Vue({
 
     },
 
+    deleteProd(index){
+      Swal.fire({
+        title: '¿Estas seguro de elimar el producto?',
+        text: "Se eliminará el producto y no podras rehacer",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Elimando el producto!',
+            'Se ha eliminado correctamente el producto',
+            'success'
+          );
+
+          this.newProducts.splice(index);
+          this.updateLocalStorage();
+          
+      
+
+      
+      
+         
+        }
+      })
+
+    },
+
+    selectProd(prod){
+      
+      this.product.id = prod.id
+      this.product.name = prod.name;
+      this.product.category = prod.category;
+      this.product.amount = prod.amount;
+      this.product.price = prod.price;
+      this.product.description = prod.description;
+
+      let btn = document.getElementById("update");
+      btn.classList.remove('disabled')
+
+    },
+
+    updateProd(){
+      
+
+      
+      this.newProducts.forEach(p => {
+        if(p.id == this.product.id)  
+        {
+          p.name = this.product.name,
+          p.category =  this.product.category,
+          p.price =  this.product.price,
+          p.amount =  this.product.amount,
+          p.description =  this.product.description
+        }
+        
+      });
+
+      this.product.id = ''
+      this.product.name = '';
+      this.product.category = '';
+      this.product.amount = '';
+      this.product.price = '';
+      this.product.description = '';
+      this.updateLocalStorage();
+      let btn = document.getElementById("update");
+      btn.classList.add('disabled')
+    },
+
+
     addCart(){
       if(this.prod == null || this.cart.amount <  1 ){
         Swal.fire({
@@ -196,7 +268,7 @@ var app = new Vue({
       this.cart.price = '';
       this.cart.amount = '';
       this.cart.total = '';
-      this.prod = {};
+      this.prod = null;
       return;
      
 
@@ -249,8 +321,22 @@ var app = new Vue({
     },
 
     cancelSale(){
-     
-      this.sale.id = '';
+      Swal.fire({
+        title: '¿Estas seguro de cancelar la venta?',
+        text: "Se eliminará tu carrito",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Cancelando la venta!',
+            'Has cancelado la venta correctamente',
+            'success'
+          );
+          this.sale.id = '';
       this.sale.products = [];
       this.sale.total = 0;
 
@@ -264,6 +350,10 @@ var app = new Vue({
 
       this.updateProducts();
       this.prod = {};
+      
+         
+        }
+      })
       
 
     },

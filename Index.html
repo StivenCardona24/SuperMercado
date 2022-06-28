@@ -49,7 +49,7 @@
                     <div class="mb-3">
                         <label for=""  class="form-label">Categoria:</label>
                         <select class="form-select" aria-label="Default select example" v-model="product.category" >   
-                            <option v-for="item in categories" value="item" v-text="item"></option>
+                            <option v-for="item in categories" :value="item" v-text="item"></option>
 
                           </select>
                     </div>
@@ -73,6 +73,7 @@
                     
                     <div class="mb-3 ">
                       <button type="button" class="btn btn-primary" @click = "saveProduct">Guardar</button>
+                      <button type="button" class="btn btn-primary disabled" @click = "updateProd" id="update">Actualizar</button>
                     </div>
                     
 
@@ -82,7 +83,9 @@
 
                   <div class="col">
                     <div class="p-3 border bg-light">
+                        <div class="table-responsive"></div>
                         <h2>Productos</h2>
+                        <div class="table-responsive">
                         <table class="table table-dark table-hover table-responsive table-striped">
                             <thead class="text-center">
                                 <tr>
@@ -91,6 +94,7 @@
                                     <th>Categoria</th> 
                                     <th>Cantidad</th>
                                     <th>Precio</th>
+                                    <th>Opciones</th>
                                   
                                 </tr>
                             </thead>
@@ -101,12 +105,14 @@
                                     <td v-text="item.category"></td>
                                     <td v-text="item.amount"></td>
                                     <td v-text="item.price"></td>
+                                    <td ><button type="button" class="btn btn-danger text-right botones " @click="deleteProd(index)" ><img src="Images/eliminar.png"  alt=""></button><button type="button" class="btn btn-light text-right botones" @click="selectProd(item)" > <img src="Images/boton-actualizar.png"  alt=""></button></td>
                                 </tr>
                             </tbody>
                             <tbody v-else>
                                 <td colspan="5" class="text-center">No hay productos</td>
                             </tbody>
                         </table>
+                    </div>
 
 
                     </div>

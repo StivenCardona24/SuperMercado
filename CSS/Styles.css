@@ -1,0 +1,13 @@
+
+#products table .botones {
+    text-align: center;
+    width: 40px;
+    margin-right: 5px;
+    padding: 5px;
+
+}
+
+#products table .botones img{
+    margin: auto;
+    width: 25px;
+}
