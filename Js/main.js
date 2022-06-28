@@ -38,7 +38,7 @@ var app = new Vue({
     sale:{
       id: '',
       products: [],
-      total: ''
+      total: 0
     },
 
     product:{
@@ -51,8 +51,8 @@ var app = new Vue({
 
     },
 
-    option: 0,
-    prod: null,
+    option: 1,
+    prod: {},
     cart:{
       id: '',
       name: '',
@@ -140,14 +140,63 @@ var app = new Vue({
       this.cart.id = this.sale.products.length +1;
       this.cart.name = this.prod.name;
       this.cart.category = this.prod.category;
-
       this.cart.price = this.prod.price;
       this.cart.total = this.cart.amount * this.prod.price;
 
+      let total = this.cart.total
+      this.sale.total += total;
+
       
+
+      this.sale.products.push({
+        id: this.cart.id,
+        name: this.cart.name,
+        category: this.cart.category,
+        price: this.cart.price,
+        amount: this.cart.amount,
+        total: this.cart.total,
+      }
+        
+      );
+
+      this.cart.id = '';
+      this.cart.name ='';
+      this.cart.category = '';
+      this.cart.price = '';
+      this.cart.amount = '';
+      this.cart.total = '';
+      this.prod = {};
+      return;
+     
+
+
+
       
     },
 
+
+    addSale(){
+
+      if(this.sale.products.length){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Debes registrar por lo menos un producto',
+         
+        });
+        return;
+
+       
+
+      }
+
+      this.sale.id = this.sales.length +1;
+
+      this.sales.push(this.sale);
+
+      this.updateLocalStorage();
+
+    },
 
 
     listData(){

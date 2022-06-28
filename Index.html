@@ -150,13 +150,13 @@
                           
                         </tr>
                     </thead>
-                    <tbody class="text-center"  v-if="sale.length">
+                    <tbody class="text-center"  v-if="sale.products">
                         <tr  class=" align-middle"  v-for="(item, index) in sale.products">
                             <td v-text = "item.id"></td>
                             <td v-text = "item.name"></td>
                             <td v-text = "item.category"></td>
                             <td v-text = "item.price"></td>
-                            <td v-text = "item.Cantidad"></td>
+                            <td v-text = "item.amount"></td>
                             <td v-text = "item.total"></td>
                         </tr>
 
@@ -173,7 +173,7 @@
             </div>
 
             <div class="mb-3 text-right">
-                <button type="button" class="btn btn-primary text-right" >Registrar</button>
+                <button type="button" class="btn btn-primary text-right" @click="addSale" >Registrar</button>
             </div>
 
 
