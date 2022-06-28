@@ -74,6 +74,7 @@
                     <div class="mb-3 ">
                       <button type="button" class="btn btn-primary" @click = "saveProduct">Guardar</button>
                     </div>
+                    
 
                    </div>
                   </div>
@@ -126,10 +127,10 @@
                         
                         </select>
                       </div>
-                    <div class="col-md-4">
+                    <div v-if="prod != null" class="col-md-4">
                       <label for="inputPassword4" class="form-label">Cantidad</label>
                       <input type="number" class="form-control" id="inputPassword4" min=1 :max="prod.amount" v-model ="cart.amount">
-                      <span v-if="cart.amount > prod.amount">Cantidad maxima del producto superada</span>
+                      <span  v-if="cart.amount > prod.amount">Cantidad maxima del producto superada</span>
                     </div>
                     <div class="col-md-4 mt-5">
                         <button type="button" class="btn btn-primary" @click="addCart">Agregar</button>
@@ -172,8 +173,13 @@
                 </table>
             </div>
 
-            <div class="mb-3 text-right">
-                <button type="button" class="btn btn-primary text-right" @click="addSale" >Registrar</button>
+            <div class="mb-3 text-center row">
+                <div class="col">
+                    <button type="button" class="btn btn-primary text-right" @click="addSale" >Registrar</button>
+                </div>
+                <div class="col">
+                <button type="button" class="btn btn-danger text-right" @click="cancelSale" >Cancelar</button>
+                </div>
             </div>
 
 

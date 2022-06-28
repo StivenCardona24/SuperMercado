@@ -52,7 +52,7 @@ var app = new Vue({
     },
 
     option: 1,
-    prod: {},
+    prod: null,
     cart:{
       id: '',
       name: '',
@@ -167,6 +167,7 @@ var app = new Vue({
 
       }
 
+
       this.cart.id = this.sale.products.length +1;
       this.cart.name = this.prod.name;
       this.cart.category = this.prod.category;
@@ -176,7 +177,7 @@ var app = new Vue({
       let total = this.cart.total
       this.sale.total += total;
 
-      
+      this.prod.amount -= this.cart.amount;
 
       this.sale.products.push({
         id: this.cart.id,
@@ -242,7 +243,38 @@ var app = new Vue({
       this.sale.products = [];
       this.sale.total = 0;
       
+      
 
+
+    },
+
+    cancelSale(){
+     
+      this.sale.id = '';
+      this.sale.products = [];
+      this.sale.total = 0;
+
+      this.cart.id = '';
+      this.cart.name ='';
+      this.cart.category = '';
+      this.cart.price = '';
+      this.cart.amount = '';
+      this.cart.total = '';
+      
+
+      this.updateProducts();
+      this.prod = {};
+      
+
+    },
+
+    updateProducts(){
+      if(localStorage.getItem('products') != null){
+        this.newProducts = JSON.parse(localStorage.getItem('products'));
+    }
+    else{
+        this.listData();
+    }
 
     },
 
